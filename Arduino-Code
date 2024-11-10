@@ -37,12 +37,12 @@ void loop() {
   Serial.println(light);
   
   // Determine status of light
-  if (light > bright) {
-    Serial.println("Status: There is light");
-    digitalWrite(7, LOW);
-  } else if (light <= bright) {   // Corrected this condition
+  if (light < bright) {
     Serial.println("Status: Too dark, let there be light!");
     digitalWrite(7, HIGH);
+  } else if (light >= bright) {   
+    Serial.println("Status: There is light");
+    digitalWrite(7, LOW);
   }
 
   Serial.println();
@@ -50,3 +50,4 @@ void loop() {
   // Take a reading every second
   delay(1000);
 }
+
