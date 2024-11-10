@@ -1,0 +1,52 @@
+#define wetSoil 306    // Define max value we consider soil 'wet'
+#define drySoil 400    // Define min value we consider soil 'dry'
+#define bright 190
+#define dark 135
+
+// Define analog input
+#define sensorPin1 A0
+#define sensorPin2 A2
+
+void setup() {  
+  Serial.begin(9600);
+  pinMode(13, OUTPUT);
+  pinMode(7, OUTPUT);
+}
+
+void loop() {
+  // Read the Analog Input for moisture and print it
+  int moisture = analogRead(sensorPin1);
+  Serial.print("Moisture: ");
+  Serial.println(moisture);
+  
+  // Determine status of our soil
+  if (moisture < wetSoil) {
+    Serial.println("Status: Soil is too wet");
+    digitalWrite(13, LOW);
+  } else if (moisture >= wetSoil && moisture < drySoil) {
+    Serial.println("Status: Soil moisture is perfect");
+    digitalWrite(13, LOW);
+  } else {
+    Serial.println("Status: Soil is too dry - time to water!");
+    digitalWrite(13, HIGH);
+  }
+
+  // Read the Analog Input for light and print it
+  int light = analogRead(sensorPin2);
+  Serial.print("Light: ");
+  Serial.println(light);
+  
+  // Determine status of light
+  if (light > bright) {
+    Serial.println("Status: There is light");
+    digitalWrite(7, LOW);
+  } else if (light <= bright) {   // Corrected this condition
+    Serial.println("Status: Too dark, let there be light!");
+    digitalWrite(7, HIGH);
+  }
+
+  Serial.println();
+  
+  // Take a reading every second
+  delay(1000);
+}
